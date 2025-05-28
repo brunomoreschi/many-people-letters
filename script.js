@@ -9,7 +9,7 @@ form.addEventListener('submit', function(event) {
     const word = input.value.trim();
     if (word) {
         storyWords.push(word);
-        storyDiv.textContent = storyWords.join(' ');
+storyDiv.textContent = storyWords.join('');
         input.value = '';
     }
 });

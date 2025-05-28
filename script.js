@@ -6,7 +6,7 @@ let storyWords = [];
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
-    const word = input.value.trim();
+const word = input.value;  // Allow space
     if (word) {
         storyWords.push(word);
 storyDiv.textContent = storyWords.join(" ");

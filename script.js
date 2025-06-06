@@ -2,24 +2,27 @@ const form = document.getElementById('wordForm');
 const input = document.getElementById('wordInput');
 const storyDiv = document.getElementById('story');
 
-let storyText = '';
+const db = firebase.database();
+const storyRef = db.ref('story');
 
-// Load saved story from localStorage when page loads
-if (localStorage.getItem('collaborativeStory')) {
-    storyText = localStorage.getItem('collaborativeStory');
-    storyDiv.textContent = storyText;
-}
+// Listen for changes
+storyRef.on('value', (snapshot) => {
+    const story = snapshot.val();
+    storyDiv.textContent = story || '';
+});
 
-form.addEventListener('submit', function(event) {
+// Submit new character
+form.addEventListener('submit', function (event) {
     event.preventDefault();
 
     let char = input.value;
-
+    if (char === '_') char = ' ';
     if (char !== '') {
-        if (char === '_') char = ' '; // convert underscore to space
-        storyText += char;
-        storyDiv.textContent = storyText;
-        localStorage.setItem('collaborativeStory', storyText);
+        storyRef.once('value').then(snapshot => {
+            const current = snapshot.val() || '';
+            const updated = current + char;
+            storyRef.set(updated);
+        });
     }
 
     input.value = '';

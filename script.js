@@ -4,15 +4,22 @@ const storyDiv = document.getElementById('story');
 
 let storyWords = [];
 
+// Load story from localStorage if it exists
+const savedStory = localStorage.getItem('collaborativeStory');
+if (savedStory) {
+    storyWords = savedStory.split('');
+    storyDiv.textContent = storyWords.join('');
+}
+
 form.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const char = input.value;  // DO NOT trim!
-
-    if (char !== '') {  // Allow space but prevent empty input
-        storyWords.push(char);
+    const char = input.value;
+    if (char !== '') {
+        storyWords.push(char === '_' ? ' ' : char);
         storyDiv.textContent = storyWords.join('');
+        localStorage.setItem('collaborativeStory', storyWords.join(''));
     }
 
-    input.value = '';  // Clear input after submission
+    input.value = '';
 });

@@ -2,24 +2,24 @@ const form = document.getElementById('wordForm');
 const input = document.getElementById('wordInput');
 const storyDiv = document.getElementById('story');
 
-let storyWords = [];
-console.log('Loaded saved story:', savedStory);
+let storyText = '';
 
-// Load story from localStorage if it exists
-const savedStory = localStorage.getItem('collaborativeStory');
-if (savedStory) {
-    storyWords = savedStory.split('');
-    storyDiv.textContent = storyWords.join('');
+// Load saved story from localStorage when page loads
+if (localStorage.getItem('collaborativeStory')) {
+    storyText = localStorage.getItem('collaborativeStory');
+    storyDiv.textContent = storyText;
 }
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const char = input.value;
+    let char = input.value;
+
     if (char !== '') {
-        storyWords.push(char === '_' ? ' ' : char);
-        storyDiv.textContent = storyWords.join('');
-        localStorage.setItem('collaborativeStory', storyWords.join(''));
+        if (char === '_') char = ' '; // convert underscore to space
+        storyText += char;
+        storyDiv.textContent = storyText;
+        localStorage.setItem('collaborativeStory', storyText);
     }
 
     input.value = '';

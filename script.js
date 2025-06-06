@@ -3,6 +3,7 @@ const input = document.getElementById('wordInput');
 const storyDiv = document.getElementById('story');
 
 let storyWords = [];
+console.log('Loaded saved story:', savedStory);
 
 // Load story from localStorage if it exists
 const savedStory = localStorage.getItem('collaborativeStory');
